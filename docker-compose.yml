@@ -2,6 +2,7 @@ version: "3.7"
 volumes:
   db-store:
   php-fpm-socket:
+
 services:
   https-portal:
     container_name: bookmark-https
@@ -39,6 +40,18 @@ services:
       - ./docker/logs:/var/log/mysql
     ports:
       - 3306:3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 4040:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=test-user
+      - PMA_PASSWORD=secret
+    links:
+      - db
 
   node:
     container_name: bookmark-node
