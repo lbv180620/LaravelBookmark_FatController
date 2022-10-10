@@ -43,6 +43,12 @@
         "classmap": [
             "database/seeds",
             "database/factories"
+        ],
+        "exclude-from-classmap": [
+            "vendor\\fzaninotto\\faker\\src\\Faker\\Provider\\Image.php"
+        ],
+        "files": [
+            "app\\Vendor\\fzaninotto\\faker\\src\\Faker\\Provider\\Image.php"
         ]
     },
     "autoload-dev": {

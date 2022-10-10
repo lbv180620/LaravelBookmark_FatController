@@ -11,6 +11,9 @@ launch:
 up:
 	docker-compose up -d
 
+down:
+	docker compose down --remove-orphans
+
 
 laravel-set:
 	docker-compose exec app composer install
@@ -26,3 +29,6 @@ mig:
 
 seed:
 	docker-compose exec app php artisan db:seed
+
+rollback:
+	docker-compose exec app php artisan migrate:rollback
