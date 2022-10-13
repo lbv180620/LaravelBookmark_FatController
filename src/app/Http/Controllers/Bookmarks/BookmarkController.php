@@ -7,19 +7,16 @@ use App\Bookmark\UseCase\CreateBookmarkUseCase;
 use App\Bookmark\UseCase\ShowBookmarkListPageUseCase;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateBookmarkRequest;
+use App\Lib\LinkPreview\LinkPreview;
+use App\Lib\LinkPreview\MockLinkPreview;
 use App\Models\Bookmark;
 use App\Models\BookmarkCategory;
 use App\Models\User;
 use Artesaos\SEOTools\Facades\SEOTools;
-use Dusterio\LinkPreview\Client;
-use Dusterio\LinkPreview\Exceptions\UnknownParserException;
-use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -102,11 +99,12 @@ class BookmarkController extends Controller
      * ブックマーク作成処理
      *
      * @param CreateBookmarkRequest $request
+     * @param CreateBookmarkUseCase $useCase
      * @return Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws ValidationException
      */
-    public function create(CreateBookmarkRequest $request)
+    public function create(CreateBookmarkRequest $request, CreateBookmarkUseCase $useCase)
     {
-        $useCase = new CreateBookmarkUseCase();
         $useCase->handle($request->url, $request->category, $request->comment);
 
         // 暫定的に成功時は一覧ページへ
